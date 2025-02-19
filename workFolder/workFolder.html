@@ -41,7 +41,7 @@
         document.getElementById('getFolderName').addEventListener('click', function() {
             try {
                 let session = pfcGetCurrentSession();
-                let folderName = session.GetEnvironmentVariable("PRO_DIRECTORY");
+                let folderName = session.GetCurrentDirectory();
                 document.getElementById('folderName').value = folderName;
             } catch (error) {
                 console.error("CreoJS 오류:", error);

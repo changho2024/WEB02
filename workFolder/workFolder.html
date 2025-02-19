@@ -1,58 +1,71 @@
-
 <!DOCTYPE html>
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>폴더 이름 가져오기</title>
-    <script src="../creojs.js"></script>
-    <script type="text/creojs" src="../browser.creojs"></script>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <title>Get Working Folder Name</title>
     <style>
         body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        .container {
+            border: 1px solid #ccc;
             padding: 20px;
+            width: 93%;
+        }
+
+        .input-container {
+            margin-top: 10px;
+        }
+
+        button {
+            padding: 6px 25px;
+            font-size: 16px;
+            margin-top: 10px;
+            cursor: pointer;
+        }
+
+        input[type="text"] {
+            width: 400px;
+            padding: 10px;
+            font-size: 14px;
+            box-sizing: border-box;
+            background-color: #f5f5f5;
+            border: 1px solid #ccc;
         }
     </style>
+    <script src="../creojs.js"></script>
+    <script type="text/creojs" src="../browser.creojs"></script>
 </head>
 <body>
-
     <div class="container">
-        <div class="row">
-            <div class="col-md-6">
-                <h2>Get Working Folder Name</h2>
-                <button class="btn btn-primary" id="getFolderName">Get Working Folder Name</button>
-                <button class="btn btn-secondary" id="clear">Clear</button>
-            </div>
+        <h3>Get Current Working Folder Name!</h3>
+        <div class="input-container">
+            <label for="folderName">Folder Name:</label>
+            <input type="text" id="folderName" readonly>
         </div>
-        <div class="row mt-3">
-            <div class="col-md-6">
-                <label for="folderName">Folder Name :</label>
-                <input type="text" class="form-control" id="folderName" readonly>
-            </div>
-        </div>
+        <button onclick="fetchFolderName()">Get Working Folder Name</button>
+        <button onclick="clearFolderName()">Clear</button>
     </div>
 
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-
     <script>
-        // JavaScript 코드 (폴더 이름 가져오기 및 지우기 기능 구현)
-        document.getElementById('getFolderName').addEventListener('click', function() {
+        async function fetchFolderName() {
             try {
-                let session = pfcGetCurrentSession();
-                let folderName = session.GetCurrentDirectory();
-                document.getElementById('folderName').value = folderName;
+                const folderName = await CreoJS.eval(`
+                    var session = pfcGetCurrentSession();
+                    session.GetCurrentDirectory()
+                `);
+                document.getElementById("folderName").value = folderName;
             } catch (error) {
-                console.error("CreoJS 오류:", error);
-                document.getElementById('folderName').value = "CreoJS 오류 발생"; // 오류 메시지 표시
+                alert("Error fetching folder name: " + error.message);
             }
-        });
+        }
 
-        document.getElementById('clear').addEventListener('click', function() {
-            document.getElementById('folderName').value = "";
-        });
+        function clearFolderName() {
+            document.getElementById("folderName").value = "";
+        }
     </script>
-
 </body>
 </html>

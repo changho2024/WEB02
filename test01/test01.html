@@ -14,9 +14,9 @@
     
     <script>
         // 페이지 로드 시 creojs.js 로드 여부 확인
-        alert("creojs.js 로드 확인: " + typeof pfcGetCurrentSession);
+        // alert("creojs.js 로드 확인: " + typeof pfcGetCurrentSession);
 
-        function displayGreeting() {
+        async function displayGreeting() {
             try {
                 const session = pfcGetCurrentSession();
                 if (session) {

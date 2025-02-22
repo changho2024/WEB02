@@ -5,29 +5,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <script src="../creojs.js"></script>
-    <script "type=text/javascript" src="../browser.js"></script>
-</head>
-<body>
-    <h1>CreoJS 로드 테스트</h1>
-    <button onclick="displayGreeting()">클릭하세요!</button>
-    <p id="greeting"></p>
-    
-    <script>
-        // 페이지 로드 시 creojs.js 로드 여부 확인
-        // alert("creojs.js 로드 확인: " + typeof pfcGetCurrentSession);
-
-        async function displayGreeting() {
-            try {
-                const session = pfcGetCurrentSession();
-                if (session) {
-                    document.getElementById("greeting").innerHTML = "안녕하세요";
-                } else {
-                    document.getElementById("greeting").innerHTML = "세션을 가져오지 못했습니다.";
-                }
-            } catch (error) {
-                document.getElementById("greeting").innerHTML = "세션 호출 실패: " + error.message;
-            }
+    <script type="text/creojs" src="../browser.creojs"></script>
+    <script type="text/creojs">
+        function getActiveModelName () {
+            return pfcGetCurrentSession ().GetActiveModel ().FileName;
         }
-    </script>  
-</body>
+    </script>
+</head>
+<body onload="CreoJS.$ADD_ON_LOAD (initialize)">
+    <b>Active model:</b> <span id="MODELNAME"></span>
+    <script>
+        function initialize () {
+            CreoJS.getActiveModelName ()
+                .then (function (name) {
+                    MODELNAME.innerHTML = name;
+                })
+        }
+    </script>
+</body>    
 </html>

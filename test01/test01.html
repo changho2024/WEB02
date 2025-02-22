@@ -1,27 +1,20 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <script src="../creojs.js"></script>
-    <script type="text/creojs" src="../browser.creojs"></script>
-    <script type="text/creojs">
-        function getActiveModelName () {
-            return pfcGetCurrentSession ().GetActiveModel ().FileName;
+    <title>CreoJS 로드 확인</title>
+    <script>
+        function checkCreoJS() {
+            if (typeof creoFunction === "function") {
+                alert("creojs.js가 정상적으로 로드되었습니다!");
+            } else {
+                alert("creojs.js 로드 실패!");
+            }
         }
     </script>
 </head>
-<body onload="CreoJS.$ADD_ON_LOAD (initialize)">
-    <b>Active model:</b> <span id="MODELNAME"></span>
-    <script>
-        function initialize () {
-            CreoJS.getActiveModelName ()
-                .then (function (name) {
-                    MODELNAME.innerHTML = name;
-                })
-        }
-    </script>
-</body>    
+<body>
+    <script src="../creojs.js" onload="checkCreoJS()" onerror="alert('creojs.js 로드 실패!')"></script>
+</body>
 </html>
